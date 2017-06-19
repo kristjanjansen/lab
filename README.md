@@ -40,7 +40,7 @@ anything | lab
 
 ### List all scripts
 
-```ruby
+```python
 lab list
 ```
 
