@@ -24,8 +24,8 @@ if (process.argv.length < 3 && process.stdin.isTTY) {
     console.log(chalk.gray('\tanything | ') + chalk.green('lab\n'))
     console.log('List all runned scripts\n')
     console.log(chalk.green('\tlab list\n'))
-    console.log('Run a script by ID\n')
-    console.log(chalk.green('\tlab run') + chalk.yellow(' id\n'))
+    console.log('Run a script by hash\n')
+    console.log(chalk.green('\tlab') + chalk.red(' hash\n'))
     console.log('Allow scripts to be run remotely\n')
     console.log(chalk.green('\tlab remote'))
     console.log('\n')
@@ -37,7 +37,7 @@ if (process.argv.length < 3 && process.stdin.isTTY) {
 if (argv._[0] === 'list') {
 
         var table = new Table({
-        head: ['Id', 'Runner', 'Runnable', 'Parameters']
+        head: ['Hash', 'Runner', 'Runnable', 'Parameters']
     });
 
     _.each(conf.all, (value, key) => {
@@ -69,8 +69,15 @@ if (argv._[0] === 'remote') {
 
 }
 
+// Running a script by ID
+
+if (argv._[0] && !!argv._[0].match(/^([a-z0-9]{8})$/)) {
+    var run = conf.get(argv._[0])
+    run.args = [run.runnable]
+    runScript(run)
+}
+
 // Running in single script runner mode
-// lab scriptname --argument1 --argument2
 
 if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) === '.py'))  {
 
@@ -91,27 +98,21 @@ if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) =
 
     console.log(chalk.gray('\nRunning as single script runner'))
     
-    var spawn = childProcess.spawn;
-    var child = spawn(runner, args)
-    
-    child.stdout.on('data', data => {
-        data = data.toString()
-        console.log(isJson(data) ? chalk.blue(data) : chalk.gray(data))
-    })
-    
-    var storedRun = {
+    var run = {
         cwd: process.cwd(),
         runner,
         runnable,
         parameters
     }
-    
-    conf.set(hash(storedRun), storedRun)
-    
+
+    conf.set(hash(run), run)
+    run.args = args
+
+    runScript(run)
+
 }
 
 // Running in piped mode
-// something | lab
 
 if (!process.stdin.isTTY) {
     
@@ -125,6 +126,22 @@ if (!process.stdin.isTTY) {
 }
 
 // Utils
+
+function runScript(run) {
+    
+    var spawn = childProcess.spawn;
+    
+    var child = spawn(run.runner, run.args, { cwd: run.cwd })
+    
+    child.stdout
+        .on('data', data => {
+            data = data.toString()
+            console.log(isJson(data) ? chalk.blue(data) : chalk.gray(data))
+        })
+        .on('error', err => console.log(err))
+
+
+}
 
 function isJson(str) {
 

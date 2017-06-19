@@ -49,7 +49,7 @@ lab list
 ### Run a script by ID
 
 ```sh
-lab run id
+lab id
 ```
 
 ### Run a script by tagname
