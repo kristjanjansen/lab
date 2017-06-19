@@ -8,6 +8,7 @@ CLI for data science
 
 ```sh
 git clone https://github.com/kristjanjansen/lab
+cd lab
 npm install -g
 ```
 
