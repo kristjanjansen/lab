@@ -41,8 +41,8 @@ if (argv._[0] === 'list') {
     });
 
     _.each(conf.all, (value, key) => {
-        var parameters = value.parameters.length ?
-            value.parameters.map(p => '--'+p).join(' ')
+        var parameters = value.parameters ?
+            formatParameters(value.parameters).join(' ')
             : ''
         table.push([key, value.runner, value.runnable, parameters])
     })
@@ -52,32 +52,18 @@ if (argv._[0] === 'list') {
     process.exit()
 }
 
-if (argv._[0] === 'remote') {
-
-    var express = require('express')
-    var bodyParser = require('body-parser')
-    var app = express()
-
-    var port = 5081
-
-    app.post('/experiments/:id', bodyParser.json(), (req, res) => {
-        console.log(req.body)
-    })
-    
-    app.listen(port)
-    console.log(`Listening for incoming runs at http://localhost:${port}. Press Ctrl+C to cancel`)
-
-}
 
 // Running a script by ID
 
 if (argv._[0] && !!argv._[0].match(/^([a-z0-9]{8})$/)) {
+    
     var run = conf.get(argv._[0])
     run.args = [run.runnable]
     runScript(run)
+
 }
 
-// Running in single script runner mode
+// Running in single script
 
 if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) === '.py'))  {
 
@@ -87,26 +73,19 @@ if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) =
     }
 
     var runnable = argv._[0]
-    var args = [runnable]
     var runner = runners[path.extname(runnable)]
-    var parameters = Object.keys(argv).filter(arg => arg !== '_') || []
     
-    if (process.argv[3]) args.push(process.argv[3])
-    if (process.argv[4]) args.push(process.argv[4])
-    if (process.argv[5]) args.push(process.argv[5])
-    if (process.argv[6]) args.push(process.argv[6])
-
-    console.log(chalk.gray('\nRunning as single script runner'))
-    
-    var run = {
+    var runHash = {
         cwd: process.cwd(),
         runner,
-        runnable,
-        parameters
+        runnable
     }
 
-    conf.set(hash(run), run)
-    run.args = args
+    var run = runHash
+    run.parameters = argv
+    delete(run.parameters._)
+
+    conf.set(hash(runHash), run)
 
     runScript(run)
 
@@ -115,23 +94,45 @@ if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) =
 // Running in piped mode
 
 if (!process.stdin.isTTY) {
-    
-    console.log(chalk.gray('\nRunning in piped mode\n'))
-    
-    process.stdin.on('data', data => {
-        data = data.toString()
-        console.log(isJson(data) ? chalk.blue(data) : data)
-    })
+        
+    process.stdin
+        .on('data', data => {
+            data = data.toString()
+            console.log(isJson(data) ? chalk.blue(data) : data)
+        })
+        .on('error', err => console.log(err))
 
 }
+
+// Fallbacks to future features
+
+if (argv._[0] === 'remote') {
+    console.log(chalk.gray('\nRunning a remote lab\n'))
+    setTimeout(() => {
+        console.log(chalk.gray('...soon\n'))
+    }, 2000)
+}
+
+if (argv._[0] === 'cloud') {
+    console.log(chalk.gray('\nRunning experiment as a cloud function\n'))
+}
+
+if (argv._[0] === 'share') {
+    console.log(chalk.gray('\nSharing an experiment\n'))
+}
+
 
 // Utils
 
 function runScript(run) {
-    
+
     var spawn = childProcess.spawn;
     
-    var child = spawn(run.runner, run.args, { cwd: run.cwd })
+    var child = spawn(
+        run.runner,
+        [run.runnable].concat(formatParameters(run.parameters)),
+        { cwd: run.cwd }
+    )
     
     child.stdout
         .on('data', data => {
@@ -140,6 +141,11 @@ function runScript(run) {
         })
         .on('error', err => console.log(err))
 
+}
+
+function formatParameters(parameters) {
+    
+    return _.map(parameters, (value, key) => `--${key}=${value}`)
 
 }
 
