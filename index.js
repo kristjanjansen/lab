@@ -10,6 +10,8 @@ var _ = require('lodash');
 var Configstore = require('configstore');
 var conf = new Configstore('lab');
 
+var io = require('socket.io-client')
+var socket = io('http://localhost:8080');
 
 // No arguments
 
@@ -99,7 +101,9 @@ if (!process.stdin.isTTY) {
         .on('data', data => {
             data = data.toString()
             console.log(isJson(data) ? chalk.blue(data) : data)
+            socket.emit('data', data)
         })
+        .on('end', () => setTimeout(() => socket.close(), 10))
         .on('error', err => console.log(err))
 
 }
