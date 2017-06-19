@@ -33,15 +33,19 @@ if (argv._[0]) {
     }
 
     var runnable = argv._[0]
+    var args = [runnable]
     var runner = runners[path.extname(runnable)]
     var parameters = Object.keys(argv).filter(arg => arg !== '_') || []
     
+    if (process.argv[3]) args.push(process.argv[3])
+    if (process.argv[4]) args.push(process.argv[4])
+    if (process.argv[5]) args.push(process.argv[5])
+    if (process.argv[6]) args.push(process.argv[6])
+
     console.log('\nRunning as single script runner')
     
-    process.env.LAB_TOKEN = hash('token')
-
     var spawn = childProcess.spawn;
-    var child = spawn(runner, [runnable])
+    var child = spawn(runner, args)
     
     child.stdout.on('data', data => {
         data = data.toString()
