@@ -40,7 +40,7 @@ anything | lab
 
 ### List all scripts
 
-```python
+```yaml
 lab list
 ```
 
