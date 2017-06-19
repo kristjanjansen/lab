@@ -1,9 +1,15 @@
- ## Installation
+![](./screenshot.png)
 
- ```sh
- git clone https://github.com/kristjanjansen/lab
- npm install -g
- ```
+## About
+
+CLI for data science
+
+## Installation
+
+```sh
+git clone https://github.com/kristjanjansen/lab
+npm install -g
+```
 
  ## Usage
 
@@ -31,8 +37,8 @@ lab anythingrunnable --argument1 --argument2
 anythingrunnable | lab
 ```
 
-### Running daemon to allow running scripts remotely
+### Running daemon to allow running scripts remotely (TBD)
 
 ```
-lab --remote
+lab remote
 ```

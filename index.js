@@ -11,7 +11,7 @@ var Configstore = require('configstore');
 var conf = new Configstore('lab');
 
 
-// Default
+// No arguments
 
 if (process.argv.length < 3 && process.stdin.isTTY) {
     console.log('\nIn Node script running mode:\n')
@@ -52,10 +52,27 @@ if (argv._[0] === 'list') {
     process.exit()
 }
 
+if (argv._[0] === 'remote') {
+
+    var express = require('express')
+    var bodyParser = require('body-parser')
+    var app = express()
+
+    var port = 5081
+
+    app.post('/experiments/:id', bodyParser.json(), (req, res) => {
+        console.log(req.body)
+    })
+    
+    app.listen(port)
+    console.log(`Listening for incoming runs at http://localhost:${port}. Press Ctrl+C to cancel`)
+
+}
+
 // Running in single script runner mode
 // lab scriptname --argument1 --argument2
 
-if (argv._[0]) {
+if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) === '.py'))  {
 
     var runners = {
         '.js': 'node',
