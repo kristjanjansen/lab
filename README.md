@@ -40,7 +40,7 @@ anything | lab
 
 ### List all scripts
 
-```yaml
+```sh
 lab list
 ```
 
@@ -52,10 +52,22 @@ lab list
 lab run id
 ```
 
+### Run a script by tagname
+
+```sh
+lab run tagname
+```
+
 ### Run a daemon to allow running scripts remotely
 
 ```sh
 lab remote
+```
+
+### Run script as a cloud function
+
+```sh
+lab cloud script.sh
 ```
 
 ### Share experiment
