@@ -38,7 +38,19 @@ lab anythingrunnable --argument1 --argument2
 anythingrunnable | lab
 ```
 
-### Running daemon to allow running scripts remotely (TBD)
+### List all scripts
+
+```
+lab list
+```
+
+### Run a script by ID
+
+```
+lab run id
+```
+
+### Run a daemon to allow running scripts remotely
 
 ```
 lab remote
