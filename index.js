@@ -10,6 +10,8 @@ var _ = require('lodash');
 var Configstore = require('configstore');
 var conf = new Configstore('lab');
 
+var io = require('socket.io-client')
+var socket = io('http://localhost:8080');
 
 // No arguments
 
@@ -75,17 +77,21 @@ if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) =
     var runnable = argv._[0]
     var runner = runners[path.extname(runnable)]
     
-    var runHash = {
+    var runId = hash({
         cwd: process.cwd(),
         runner,
         runnable
+    })
+
+    var run = {
+        id: runId,
+        cwd: process.cwd(),
+        runner,
+        runnable,
+        parameters: _.filter(argv, (value, key) => key !== '_') 
     }
-
-    var run = runHash
-    run.parameters = argv
-    delete(run.parameters._)
-
-    conf.set(hash(runHash), run)
+    
+    conf.set(runId, run)
 
     runScript(run)
 
@@ -95,11 +101,15 @@ if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) =
 
 if (!process.stdin.isTTY) {
         
+    var id = hash(new Date)
+
     process.stdin
         .on('data', data => {
             data = data.toString()
             console.log(isJson(data) ? chalk.blue(data) : data)
+            socket.emit('data', {id, data: isJson(data) ? JSON.parse(data) : data})
         })
+        .on('end', () => setTimeout(() => socket.close(), 10))
         .on('error', err => console.log(err))
 
 }
@@ -137,8 +147,15 @@ function runScript(run) {
     child.stdout
         .on('data', data => {
             data = data.toString()
-            console.log(isJson(data) ? chalk.blue(data) : chalk.gray(data))
+            if (isJson(data)) {
+                console.log(chalk.blue(data))
+                socket.emit('data', {id: run.id, data: JSON.parse(data)})
+            } else {
+                console.log(chalk.gray(data))
+                socket.emit('data', {id: run.id, data})
+            }
         })
+        .on('end', () => socket.close())
         .on('error', err => console.log(err))
 
 }
