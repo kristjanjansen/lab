@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 var path = require('path');
 var argv = require('minimist')(process.argv.slice(2));
 var chalk = require('chalk');
@@ -110,7 +111,8 @@ if (!process.stdin.isTTY) {
             socket.emit('data', {id, data: isJson(data) ? JSON.parse(data) : data})
         })
         .on('end', () => setTimeout(() => socket.close(), 10))
-        .on('error', err => console.log(err))
+
+    process.stderr.on('data', data => console.log(data.toString()))
 
 }
 
@@ -146,6 +148,21 @@ function runScript(run) {
     
     child.stdout
         .on('data', data => {
+            /*
+            var data = parseBuffer(data)
+
+            if (data.format === 'json') {
+                console.log(chalk.blue(JSON.stringify(data.data)))
+                socket.emit('data', {id: run.id, data: data.data})
+            } else if (data.format === 'number') {
+                console.log(chalk.cyan(data.data))
+                socket.emit('data', {id: run.id, value: data.data})
+            } else {
+                console.log(chalk.gray(data.data))
+                socket.emit('data', {id: run.id, data: data.data})
+            }
+            */
+
             data = data.toString()
             if (isJson(data)) {
                 console.log(chalk.blue(data))
@@ -156,26 +173,45 @@ function runScript(run) {
             }
         })
         .on('end', () => socket.close())
-        .on('error', err => console.log(err))
 
+    child.stderr.on('data', data => console.log(chalk.red(data.toString())))
+
+}
+
+function parseBuffer(buffer) {
+    var data = buffer.toString().trim()
+    if (isNumber(data)) {
+        return { format: 'number', data }
+    }
+    if (isJson(data)) {
+        return { format: 'json', data: JSON.parse(data) }
+    }
+    return { format: 'string', data }
+}
+
+function isJson(value) {
+
+    if (typeof(value) !== 'string') { 
+        return false;
+    }
+    try {
+        JSON.parse(value);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+function isNumber(value) {
+    if (Number.isInteger(value)) {
+        return true
+    }
+    return !Number.isNaN(Number.parseFloat(value))
 }
 
 function formatParameters(parameters) {
     
     return _.map(parameters, (value, key) => `--${key}=${value}`)
 
-}
-
-function isJson(str) {
-
-    if (typeof(str) !== 'string') { 
-        return false;
-    }
-    try {
-        JSON.parse(str);
-        return true;
-    } catch (e) {
-        return false;
-    }
 }
 
