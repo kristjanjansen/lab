@@ -70,11 +70,16 @@ if (argv._[0] && !!argv._[0].match(/^([a-z0-9]{8})$/)) {
 
 // Running in single script
 
-if (argv._[0] && (path.extname(argv._[0]) === '.js' || path.extname(argv._[0]) === '.py'))  {
+if (argv._[0] && (
+    path.extname(argv._[0]) === '.js'
+    || path.extname(argv._[0]) === '.py'
+    || path.extname(argv._[0]) === '.r'
+)) {
 
     var runners = {
         '.js': 'node',
-        '.py': 'python'
+        '.py': 'python',
+        '.r': 'Rscript'
     }
 
     var runnable = argv._[0]
