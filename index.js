@@ -28,10 +28,12 @@ if (process.argv.length < 3 && process.stdin.isTTY) {
     console.log('List all runned scripts\n')
     console.log(chalk.green('\tlab list\n'))
     console.log('Run a script by hash\n')
-    console.log(chalk.green('\tlab') + chalk.red(' hash\n'))
+    console.log(chalk.green('\tlab') + chalk.cyan(' hash\n'))
     console.log('Allow scripts to be run remotely\n')
     console.log(chalk.green('\tlab remote'))
     console.log('\n')
+
+    process.exit()
 }
 
 
@@ -148,21 +150,36 @@ function runScript(run) {
     
     child.stdout
         .on('data', data => {
-            /*
-            var data = parseBuffer(data)
+            
+            var parsedData = parseBuffer(data)
 
-            if (data.format === 'json') {
-                console.log(chalk.blue(JSON.stringify(data.data)))
-                socket.emit('data', {id: run.id, data: data.data})
-            } else if (data.format === 'number') {
-                console.log(chalk.cyan(data.data))
-                socket.emit('data', {id: run.id, value: data.data})
+            if (parsedData.format === 'json') {
+                console.log(chalk.blue(JSON.stringify(parsedData.data)))
+                socket.emit('data', {
+                    id: run.id,
+                    data: parsedData.data,
+                    format: parsedData.format,
+                    raw: data.toString().trim()
+                })
+            } else if (parsedData.format === 'number') {
+                console.log(chalk.blue(parsedData.data))
+                socket.emit('data', {
+                    id: run.id,
+                    data: { metric: parsedData.data },
+                    format: parsedData.format,
+                    raw: data.toString().trim()
+                })
             } else {
-                console.log(chalk.gray(data.data))
-                socket.emit('data', {id: run.id, data: data.data})
+                console.log(chalk.gray(parsedData.data))
+                socket.emit('data', {
+                    id: run.id,
+                    data: parsedData.data,
+                    format: parsedData.format,
+                    raw: data.toString().trim()
+                })
             }
-            */
-
+            
+            /*
             data = data.toString()
             if (isJson(data)) {
                 console.log(chalk.blue(data))
@@ -171,6 +188,7 @@ function runScript(run) {
                 console.log(chalk.gray(data))
                 socket.emit('data', {id: run.id, data})
             }
+            */
         })
         .on('end', () => socket.close())
 
