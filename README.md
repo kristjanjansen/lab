@@ -4,7 +4,7 @@
 
 CLI for data science
 
-## Installation
+## Installation if you have Git and NodeJS installed
 
 ```sh
 git clone https://github.com/kristjanjansen/lab

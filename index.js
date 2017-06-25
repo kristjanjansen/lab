@@ -36,6 +36,12 @@ if (String(arg.command()).match(/^([a-z0-9]{8})$/)) {
 
 // Running as server
 
+if (arg.hasCommand('all')) {
+    require('./lib/commands/run').runAll()
+}
+
+// Running as server
+
 if (arg.hasCommand('server') && process.stdin.isTTY) {
     require('./lib/commands/server')()
 }
