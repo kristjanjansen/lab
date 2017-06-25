@@ -46,7 +46,7 @@ if (String(arg.command()).match(/^([a-z0-9]{8})$/)) {
 // Fallbacks to future features
 
 if (arg.hasCommand('server')) {
-    console.log(chalk.gray('\nRunning a server\n'))
+    require('./lib/commands/server')()
 }
 
 if (arg.hasCommand('cloud')) {
