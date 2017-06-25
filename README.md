@@ -4,67 +4,64 @@
 
 CLI for data science
 
-## Installation
+## Installation if you have Git and NodeJS installed
 
 ```sh
 git clone https://github.com/kristjanjansen/lab
 cd lab
 npm install -g
 ```
+---
 
-## Usage
-
-### In NodeJS script running mode
+#### Run a script
 
 ```sh
 lab script.js --argument1 --argument2
 ```
 
-### In Python script running mode
-
 ```sh
 lab script.py --argument1 --argument2
 ```
 
-### In R / shell script / etc mode (TBD)
-
 ```sh
-lab anything --argument1 --argument2
+lab script.r --argument1 --argument2
 ```
 
-### In piped mode
+#### Run in piped mode
 
 ```sh
 anything | lab
 ```
 
-### List all scripts
+#### List scripts
 
 ```sh
 lab list
 ```
 
-## Future
-
-### Run a script by ID
+#### Run a script by ID
 
 ```sh
 lab id
 ```
 
-### Run a script by tagname
+#### Run a server
+
+```sh
+lab server
+```
+
+---
+
+## Future
+
+#### Run a script by tagname
 
 ```sh
 lab run tagname
 ```
 
-### Run a daemon to allow running scripts remotely
-
-```sh
-lab remote
-```
-
-### Run script as a cloud function
+#### Run script as a cloud function / Docker container
 
 ```sh
 lab cloud script.sh

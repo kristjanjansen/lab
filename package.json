@@ -1,18 +1,43 @@
 {
   "name": "lab",
+  "private": true,
   "version": "0.0.1",
   "main": "index.js",
   "bin": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
   "dependencies": {
-    "axios": "^0.16.2",
     "body-parser": "^1.17.2",
     "chalk": "^1.1.3",
     "cli-table": "^0.3.1",
     "configstore": "^3.1.0",
+    "d3-array": "^1.2.0",
+    "d3-scale": "^1.0.6",
+    "d3-shape": "^1.2.0",
     "express": "^4.15.3",
+    "express-history-api-fallback": "^2.2.1",
     "hash-sum": "^1.0.2",
     "lodash": "^4.17.4",
+    "marked": "^0.3.6",
     "minimist": "^1.2.0",
-    "socket.io-client": "^2.0.3"
+    "opener": "^1.4.3",
+    "raw-loader": "^0.5.1",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3",
+    "vue": "^2.3.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "babel-preset-latest": "^6.0.0",
+    "cross-env": "^3.0.0",
+    "css-loader": "^0.25.0",
+    "serve": "^5.1.0",
+    "vue-loader": "^11.1.4",
+    "vue-template-compiler": "^2.2.1",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   }
 }
