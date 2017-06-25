@@ -1,10 +1,10 @@
 ![](./screenshot.png)
 
-## About
+### About
 
 CLI for data science
 
-## Installation if you have Git and NodeJS installed
+### Installation if you have Git and NodeJS installed
 
 ```sh
 git clone https://github.com/kristjanjansen/lab
@@ -53,7 +53,7 @@ lab server
 
 ---
 
-## Future
+### Future
 
 #### Run a script by tagname
 
@@ -67,7 +67,7 @@ lab run tagname
 lab cloud script.sh
 ```
 
-### Share experiment
+#### Share experiment
 
 ```sh
 lab share
