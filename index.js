@@ -20,12 +20,6 @@ if (arg.hasCommand('list')) {
     require('./lib/commands/list')()
 }
 
-// Running in piped mode
-
-if (arg.isEmpty() && !process.stdin.isTTY) {
-    require('./lib/commands/pipe')()
-}
-
 // Run a script by name
 
 if(arg.command() && Object.keys(runners).find(runner => {
@@ -40,8 +34,16 @@ if (String(arg.command()).match(/^([a-z0-9]{8})$/)) {
     require('./lib/commands/run').runById(arg.command())
 }
 
-if (arg.hasCommand('server')) {
+// Running as server
+
+if (arg.hasCommand('server') && process.stdin.isTTY) {
     require('./lib/commands/server')()
+}
+
+// Running in piped mode
+
+if (arg.isEmpty() && !process.stdin.isTTY) {
+    require('./lib/commands/pipe')()
 }
 
 // Fallbacks to future features
