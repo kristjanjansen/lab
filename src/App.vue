@@ -2,7 +2,9 @@
 
     <div id="app">
         
-        <div v-if="!logs.length">
+        <help></help>
+
+        <!--div v-if="!logs.length">
             <div style="color: #555;">
                 Run an script in the command line
             </div>
@@ -27,7 +29,7 @@
             >
                 {{ log.raw }}
             </div>
-        </div>
+        </div-->
 
     </div>
 
@@ -38,11 +40,12 @@
     import uniq from 'lodash/uniq'
     import takeRight from 'lodash/takeright'
 
+    import Help from './components/Help.vue'
     import Graph from './components/Graph.vue'
 
     export default {
         name: 'App',
-        components: { Graph },
+        components: { Help, Graph },
         data: () => ({
             logs: [],
             activeId: null,
@@ -78,7 +81,6 @@
 
     body {
         font-family: monospace;
-        color: #777;
         background: #222;
         margin: 0;
         padding: 2rem;
