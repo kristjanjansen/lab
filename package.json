@@ -9,12 +9,10 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "axios": "^0.16.2",
     "body-parser": "^1.17.2",
     "chalk": "^1.1.3",
     "cli-table": "^0.3.1",
     "configstore": "^3.1.0",
-    "d3": "^4.9.1",
     "d3-array": "^1.2.0",
     "d3-scale": "^1.0.6",
     "d3-shape": "^1.2.0",

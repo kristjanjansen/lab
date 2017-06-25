@@ -2,17 +2,7 @@
 
     <div id="app">
         
-        <help></help>
-
-        <!--div v-if="!logs.length">
-            <div style="color: #555;">
-                Run an script in the command line
-            </div>
-            <div style="margin: 20px 0 0 20px;">
-                <span style="color: #00cc00;">lab</span>
-                scriptfile
-            </div>
-        </div>
+        <help v-if="!logs.length"></help>
         
         <div v-for="id in scriptIds" style="margin-bottom: 25px">
             <div style="margin-bottom: 20px">
@@ -29,7 +19,7 @@
             >
                 {{ log.raw }}
             </div>
-        </div-->
+        </div>
 
     </div>
 
