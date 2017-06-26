@@ -1,31 +1,22 @@
 <template>
     
-    <svg v-show="values.length" :width="width" :height="height">
+    <svg v-if="values.length > 1" :width="width" :height="height">
         <filter id="blur">
-            <feGaussianBlur in="SourceGraphic" :std-deviation.camel="2" />
+            <feGaussianBlur in="SourceGraphic" :std-deviation.camel="3" />
         </filter>
         <path
             fill="none"
-            stroke-width="1"
+            stroke-width="1.5"
             :stroke="color"
             :d="line(values)"
             filter="url(#blur)"
         ></path>
         <path
             fill="none"
-            stroke-width="1"
+            stroke-width="1.5"
             :stroke="color"
             :d="line(values)"
         ></path>
-        <!--rect
-            v-for="value in values"
-            :x="xScale(value.x - 0.5)"
-            y="0"
-            :width="xScale(1)"
-            :height="height"
-            fill="rgba(255,255,255,0.5)"
-            stroke="red"
-        ></rect-->
     </svg>    
 
 </template>
@@ -74,7 +65,7 @@
             },
             line(data) {
                 return line()
-                    .curve(curveBundle.beta(1))
+                    .curve(curveBundle.beta(0.1))
                     .x(d => this.xScale(d.x))
                     .y(d => this.yScale(d.y))
                     (data)

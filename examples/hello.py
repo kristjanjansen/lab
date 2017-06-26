@@ -12,4 +12,4 @@ if sys.argv[3:]:
 if sys.argv[4:]:
     print sys.argv[4]
 
-print json.dumps({'some': 'json'})
+print json.dumps({'metric': 1.1212102112})
