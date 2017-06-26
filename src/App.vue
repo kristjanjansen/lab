@@ -5,7 +5,9 @@
         <help v-if="!logs.length"></help>
         
         <div v-for="id in scriptIds" style="margin-bottom: 25px">
+            
             <runtitle :run-id="id"></runtitle>
+            
             <number
                 v-if="filteredLogs(id).filter(l => l.format === 'number').length === 1"
                 label="Hmm"
@@ -13,6 +15,7 @@
                 :color="colors.blue"
             >
             </number>
+            
             <graph
                 v-if="filteredLogs(id).length > 1"
                 style="margin-bottom: 20px"
