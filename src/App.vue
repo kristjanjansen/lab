@@ -5,15 +5,7 @@
         <help v-if="!logs.length"></help>
         
         <div v-for="id in scriptIds" style="margin-bottom: 25px">
-            <div style="margin-bottom: 20px">
-                <span :style="{color: colors.green}">lab</span> 
-                <span :style="{color: colors.cyan}">{{ id }}</span> 
-                <!--span
-                    :style="{color: colors.gray, cursor: 'pointer'}"
-                    @click="$events.$emit('run', id)"
-                >▸</span-->
-            </div>
-
+            <runtitle :run-id="id"></runtitle>
             <number
                 v-if="filteredLogs(id).filter(l => l.format === 'number').length === 1"
                 label="Hmm"
@@ -21,7 +13,6 @@
                 :color="colors.blue"
             >
             </number>
-
             <graph
                 v-if="filteredLogs(id).length > 1"
                 style="margin-bottom: 20px"
@@ -52,26 +43,22 @@
     import Help from './components/Help.vue'
     import Graph from './components/Graph.vue'
     import Number from './components/Number.vue'
+    import Runtitle from './components/Runtitle.vue'
+
+    import colors from '../lib/utils/colors'
 
     export default {
         name: 'App',
-        components: { Help, Graph, Number },
+        components: { Help, Graph, Number, Runtitle },
         data: () => ({
             logs: [],
             activeId: null,
-            colors: {
-                red: 'rgb(204,0,0)',
-                green: 'rgb(58,187,49)',
-                yellow: 'rgb(204,102,0)',
-                blue: 'rgb(83,58,221)',
-                magenta: 'rgb(204,0,)',
-                cyan: 'rgb(51,174,193)',
-                gray: 'rgba(255,255,255,0.5)'
-            }
+            colors
         }),
         methods: {
             filteredLogs(id) {
                 return this.logs.filter(log => log.id === id)
+                    .slice(-5)
             }
         },
         computed: {
