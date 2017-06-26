@@ -17,6 +17,15 @@
             :stroke="color"
             :d="line(values)"
         ></path>
+        <!--rect
+            v-for="value in values"
+            :x="xScale(value.x - 0.5)"
+            y="0"
+            :width="xScale(1)"
+            :height="height"
+            fill="rgba(255,255,255,0.5)"
+            stroke="red"
+        ></rect-->
     </svg>    
 
 </template>
@@ -39,7 +48,10 @@
         computed: {
             values() {
                 return this.logs.map((log, index) => {
-                    return { x: index, y: log.data.metric ? log.data.metric : false }
+                    return {
+                        x: index,
+                        y: log.data.metric ? log.data.metric : false
+                    }
                 })
                 .filter(value => value.y !== false)
             },
@@ -62,7 +74,7 @@
             },
             line(data) {
                 return line()
-                    .curve(curveBundle.beta(1))
+                    //.curve(curveBundle.beta(1))
                     .x(d => this.xScale(d.x))
                     .y(d => this.yScale(d.y))
                     (data)
