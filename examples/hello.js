@@ -1,9 +1,3 @@
-var count = 0
+console.log('Hello from NodeJS')
 
-var generator = setInterval(() => {
-    console.log(JSON.stringify({value: Math.random()}))
-    count++
-    if (count > 10) {
-        clearInterval(generator)
-    }
-}, 1000)
+console.log(process.argv.slice(2).join("\n"))

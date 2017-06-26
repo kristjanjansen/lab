@@ -74,7 +74,7 @@
             },
             line(data) {
                 return line()
-                    //.curve(curveBundle.beta(1))
+                    .curve(curveBundle.beta(1))
                     .x(d => this.xScale(d.x))
                     .y(d => this.yScale(d.y))
                     (data)
