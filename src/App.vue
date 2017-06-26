@@ -7,7 +7,11 @@
         <div v-for="id in scriptIds" style="margin-bottom: 25px">
             <div style="margin-bottom: 20px">
                 <span :style="{color: colors.green}">lab</span> 
-                <span :style="{color: colors.cyan}">{{ id }}</span>
+                <span :style="{color: colors.cyan}">{{ id }}</span> 
+                <span
+                    :style="{color: colors.gray}"
+                    @click="$events.$emit('run', id)"
+                >▸</span>
             </div>
             <graph style="margin-bottom: 20px" :logs="filteredLogs(id)" :color="colors.blue"></graph>
             <div
@@ -45,7 +49,8 @@
                 yellow: 'rgb(204,102,0)',
                 blue: 'rgb(83,58,221)',
                 magenta: 'rgb(204,0,)',
-                cyan: 'rgb(51,174,193)'
+                cyan: 'rgb(51,174,193)',
+                gray: 'rgba(255,255,255,0.5)'
             }
         }),
         methods: {
@@ -62,6 +67,7 @@
             this.$socket.on('log', payload => {
                 this.logs.push(payload)
             })
+            this.$events.$on('run', id => this.$socket.emit('run', id))
         }
     }
 
