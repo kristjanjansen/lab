@@ -30,6 +30,7 @@
     .Help pre {
         margin-left: 2rem;
         color: #777;
+        font-family: Roboto Mono, monospace;
     }
     .Help .lab {
         color: lime;

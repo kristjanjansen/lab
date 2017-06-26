@@ -8,14 +8,29 @@
             <div style="margin-bottom: 20px">
                 <span :style="{color: colors.green}">lab</span> 
                 <span :style="{color: colors.cyan}">{{ id }}</span> 
-                <span
-                    :style="{color: colors.gray}"
+                <!--span
+                    :style="{color: colors.gray, cursor: 'pointer'}"
                     @click="$events.$emit('run', id)"
-                >▸</span>
+                >▸</span-->
             </div>
-            <graph style="margin-bottom: 20px" :logs="filteredLogs(id)" :color="colors.blue"></graph>
+
+            <number
+                v-if="filteredLogs(id).filter(l => l.format === 'number').length === 1"
+                label="Hmm"
+                :value="filteredLogs(id).filter(l => l.format === 'number')[0].data.metric"
+                :color="colors.blue"
+            >
+            </number>
+
+            <graph
+                v-if="filteredLogs(id).length > 1"
+                style="margin-bottom: 20px"
+                :logs="filteredLogs(id)"
+                :color="colors.blue">
+            </graph>
+
             <div
-                v-for="log in filteredLogs(id).slice(-5)"
+                v-for="log in filteredLogs(id)"
                 :style="{
                     color: log.format !== 'string' ? colors.blue : 'gray',
                     marginBottom: '3px'
@@ -36,10 +51,11 @@
 
     import Help from './components/Help.vue'
     import Graph from './components/Graph.vue'
+    import Number from './components/Number.vue'
 
     export default {
         name: 'App',
-        components: { Help, Graph },
+        components: { Help, Graph, Number },
         data: () => ({
             logs: [],
             activeId: null,
@@ -76,10 +92,11 @@
 <style>
 
     body {
-        font-family: monospace;
+        font-family: Roboto Mono, monospace;
         background: #222;
         margin: 0;
         padding: 2rem;
+        font-size: 0.9rem;
     }
 
 </style>
