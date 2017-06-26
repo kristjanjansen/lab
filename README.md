@@ -55,7 +55,7 @@ lab server
 
 ### Future
 
-#### Run a script by tagname
+#### Run a script by tag name
 
 ```sh
 lab run tagname
@@ -67,7 +67,7 @@ lab run tagname
 lab cloud script.sh
 ```
 
-#### Share experiment
+#### Share an experiment
 
 ```sh
 lab share
