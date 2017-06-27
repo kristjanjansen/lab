@@ -22,15 +22,7 @@
                 :color="colors.blue">
             </graph>
 
-            <div
-                v-for="log in run.logs"
-                :style="{
-                    color: log.format !== 'string' ? colors.blue : 'gray',
-                    marginBottom: '3px'
-                }"
-            >
-                {{ log.raw }}
-            </div>
+            <logs :logs="run.logs"></logs>
 
         </div>
 
@@ -44,12 +36,13 @@
     import Graph from '../components/Graph.vue'
     import Number from '../components/Number.vue'
     import Runtitle from '../components/Runtitle.vue'
+    import Logs from '../components/Logs.vue'
 
     import colors from '../../lib/utils/colors'
     import readme from '../../README.md'
 
     export default {
-        components: { Markdown, Graph, Number, Runtitle },
+        components: { Markdown, Graph, Number, Runtitle, Logs },
         data: () => ({
             logs: [],
             activeId: null,
