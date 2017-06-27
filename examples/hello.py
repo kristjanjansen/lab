@@ -1,7 +1,7 @@
 import json
 import sys
 
-print "Hello from test.py"
+# print "Hello from test.py"
 
 if sys.argv[1:]:
     print sys.argv[1]
@@ -12,4 +12,4 @@ if sys.argv[3:]:
 if sys.argv[4:]:
     print sys.argv[4]
 
-print json.dumps({'metric': 1.1212102112})
+print("1.1212102112")

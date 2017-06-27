@@ -8,7 +8,7 @@ import VueHighlightJS from 'vue-highlight.js'
 
 Vue.use(VueClipboard)
 Vue.use(VueHighlightJS)
-import 'highlight.js/styles/androidstudio.css'
+import 'highlight.js/styles/vs2015.css'
 
 var events = new Vue()
 Vue.prototype.$events = events

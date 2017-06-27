@@ -9,6 +9,7 @@ CLI for data science
 ```sh
 git clone https://github.com/kristjanjansen/lab
 cd lab
+npm run build
 npm link
 ```
 ---

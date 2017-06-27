@@ -18,4 +18,7 @@
         font-size: 0.9rem;
         color: white;
     }
+    pre {
+        margin: 0;
+    }
 </style>
