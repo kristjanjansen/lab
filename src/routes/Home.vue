@@ -2,7 +2,7 @@
     
     <div>
         
-        <help v-if="!logs.length"></help>
+        <markdown v-if="!logs.length" :markdown="help"></markdown>
         
         <div v-for="id in scriptIds" style="margin-bottom: 25px">
             
@@ -10,7 +10,6 @@
             
             <number
                 v-if="filteredLogs(id).filter(l => l.format === 'number').length === 1"
-                label="Hmm"
                 :value="filteredLogs(id).filter(l => l.format === 'number')[0].data.metric"
                 :color="colors.blue"
             >
@@ -44,19 +43,21 @@
     import uniq from 'lodash/uniq'
     import takeRight from 'lodash/takeright'
 
-    import Help from '../components/Help.vue'
+    import Markdown from '../components/Markdown.vue'
     import Graph from '../components/Graph.vue'
     import Number from '../components/Number.vue'
     import Runtitle from '../components/Runtitle.vue'
 
     import colors from '../../lib/utils/colors'
+    import readme from '../../README.md'
 
     export default {
-        components: { Help, Graph, Number, Runtitle },
+        components: { Markdown, Graph, Number, Runtitle },
         data: () => ({
             logs: [],
             activeId: null,
-            colors
+            colors,
+            help: readme.split('---')[1]
         }),
         methods: {
             filteredLogs(id) {

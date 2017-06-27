@@ -23,12 +23,12 @@ Vue.use(VueRouter)
 import App from './App.vue'
 import Home from './routes/Home.vue'
 import Run from './routes/Run.vue'
-import Share from './routes/Share.vue'
+import About from './routes/About.vue'
 
 const routes = [
   { path: '/', component: Home },
   { path: '/run', component: Run },
-  { path: '/share', component: Share }
+  { path: '/about', component: About }
 ]
 
 const router = new VueRouter({ routes, mode: 'history' })
