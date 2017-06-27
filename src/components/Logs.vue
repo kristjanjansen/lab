@@ -4,9 +4,8 @@
         <div
             v-for="log in logs"
             class="Logs__log"
-            :style="{
-                color: log.format !== 'string' ? colors.blue : 'gray',
-            }"
+            :style="{ color: color(log) }"
+            @mouseover="onMouseover(log)"
         >
             {{ log.raw }}
         </div>
@@ -22,7 +21,25 @@
         props: {
             logs: { default: [] }
         },
-        data: () => ({ colors })
+        data: () => ({
+            colors,
+            currentTimestamp: false
+        }),
+        methods: {
+            onMouseover(log) {
+                this.currentTimestamp = log.timestamp
+                this.$events.$emit('logitem', log)
+            },
+            color(log) {
+                if (log.timestamp === this.currentTimestamp) {
+                    return colors.white
+                }
+                if (log.format !== 'string') {
+                    return colors.blue
+                }
+                return colors.gray
+            }
+        }
     }
 
 </script>

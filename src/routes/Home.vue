@@ -15,6 +15,8 @@
             >
             </number-->
             
+            {{ run.timestamp }}
+
             <graph
                 v-if="run.logs.length > 1"
                 style="margin-bottom: 20px"
