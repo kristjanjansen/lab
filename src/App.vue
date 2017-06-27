@@ -6,12 +6,6 @@
 
 <script>
     export default {
-        mounted() {
-            this.$socket.on('log', payload => {
-                this.logs.push(payload)
-            })
-            this.$events.$on('run', id => this.$socket.emit('run', id))
-        }
     }
 </script>
 
