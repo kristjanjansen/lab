@@ -8,7 +8,13 @@
             v-clipboard:success="copied"
         >
             <span :style="{color: colors.green}">lab</span> 
-            <span :style="{color: colors.cyan}">{{ runId }}</span> 
+            <span :style="{color: colors.white}">{{ run.id }}</span>
+            <span
+                v-for="(parameter, key) in run.parameters"
+                :style="{ color: colors.yellow }"
+            >
+                --{{ key }}={{ parameter }}
+            </span>
         </span>
         <span v-show="hovered" :style="{color: colors.darkgray}">{{ help }}</span>
         <!--span
@@ -27,12 +33,20 @@
 
     export default {
         props: {
-            runId: { default: null },
+            run: { default: null },
         },
-        data: () => ({ colors, hovered: false, help: 'Copy' }),
+        data: () => ({
+            colors,
+            hovered: false,
+            help: 'Copy',
+            parameters: {
+                key: 123,
+                key2: 123
+            }
+        }),
         computed: {
             copy() {
-                return 'lab ' + this.runId
+                return 'lab ' + this.run.runId
             }
         },
         methods: {
