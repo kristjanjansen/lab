@@ -17,6 +17,13 @@
             :stroke="color"
             :d="line(values)"
         ></path>
+        <line
+            :x1="xScale(activeTimestamp)"
+            :y1="yScale(0)"
+            :x2="xScale(activeTimestamp)"
+            :y2="yScale(1)"
+            :stroke="colors.darkgray"
+        ></line>
     </svg>    
 
 </template>
@@ -27,6 +34,8 @@
     import { extent } from 'd3-array'
     import { line, curveBundle } from 'd3-shape'
 
+    import colors from '../../lib/utils/colors'
+
     export default {
         props: {
             logs: { default: () => []},
@@ -35,12 +44,17 @@
             color: { default: 'white' }
         },
         
-        data: () => ({ padding: 0 }),
+        data: () => ({
+            colors,
+            padding: 0,
+            activeTimestamp: false
+        }),
         computed: {
             values() {
                 return this.logs.map((log, index) => {
                     return {
                         x: index,
+                        timestamp: log.timestamp,
                         y: log.data.metric ? log.data.metric : false
                     }
                 })
@@ -53,7 +67,7 @@
         methods: {
             xScale(value) {
                 return scaleLinear()
-                    .domain(extent(this.values, d => d.x))
+                    .domain(extent(this.values, d => d.timestamp))
                     .rangeRound([this.padding, this.paddedWidth])
                     (value)
             },
@@ -66,11 +80,16 @@
             line(data) {
                 return line()
                     .curve(curveBundle.beta(0.1))
-                    .x(d => this.xScale(d.x))
+                    .x(d => this.xScale(d.timestamp))
                     .y(d => this.yScale(d.y))
                     (data)
             },
         },
+        mounted() {
+            this.$events.$on('logitem', log => {
+                this.activeTimestamp = log.timestamp
+            })
+        }
 
     }
 

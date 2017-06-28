@@ -1,7 +1,7 @@
 <template>
     <div class="Run">
         
-        <runtitle v-if="id" :run-id="id"></runtitle>
+        <runtitle v-if="run" :run="run"></runtitle>
         
         <div class="Run__content">
             
@@ -28,13 +28,9 @@
 
     export default {
         components: { Runtitle, Parameters },
-        data: () => ({ code: null, lang: null, id: null }),
+        data: () => ({ run: null }),
         mounted() {
-            this.$socket.on('start', payload => {
-                this.id = payload.id
-                this.code = payload.code
-                this.lang = payload.lang
-            })
+            this.$socket.on('start', run => this.run = run)
         }
     }
 
