@@ -56,6 +56,14 @@ lab server
 
 ### Future
 
+#### Connect to the remote instance
+
+Local server will act as a proxy
+
+```sh
+lab server http://remote-lab-server.com
+```
+
 #### Run a script by tag name
 
 ```sh
@@ -66,6 +74,31 @@ lab run tagname
 
 ```sh
 lab cloud script.sh
+```
+
+#### Stream local input data to local runner
+
+```sh
+cat inputdata | lab cloud script.sh
+```
+
+#### Stream local data to cloud runner
+
+```sh
+cat inputdata | lab cloud script.sh
+```
+
+#### Upload local data to cloud runner
+
+```sh
+lab cloud script.sh
+```
+...analyze the script input file usage...
+
+```sh
+# The script is using ./data.csv for input data
+# Do you want to upload it?
+# [Y/N]
 ```
 
 #### Share an experiment
