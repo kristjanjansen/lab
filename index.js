@@ -42,8 +42,14 @@ if (arg.hasCommand('all')) {
 
 // Running as server
 
-if (arg.hasCommand('server') && process.stdin.isTTY) {
+if (arg.hasCommand('server') && !arg.subCommand() /* && process.stdin.isTTY */) {
     require('./lib/commands/server')()
+}
+
+// Running as proxy for remote server
+
+if (arg.hasCommand('server') && arg.subCommand()) {
+    require('./lib/commands/remoteserver')(arg.subCommand())
 }
 
 // Running in piped mode

@@ -4,10 +4,14 @@
   "version": "0.0.1",
   "main": "index.js",
   "bin": "index.js",
+  "now": {
+    "alias": "lab"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "watch": "cross-env NODE_ENV=development webpack --progress --hide-modules --watch"
+    "watch": "cross-env NODE_ENV=development webpack --progress --hide-modules --watch",
+    "start": "node index.js server"
   },
   "dependencies": {
     "body-parser": "^1.17.2",

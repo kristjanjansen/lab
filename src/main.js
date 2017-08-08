@@ -13,7 +13,8 @@ import 'highlight.js/styles/vs2015.css'
 var events = new Vue()
 Vue.prototype.$events = events
 
-var socket = io.connect('http://localhost:8042')
+//var socket = io.connect('http://localhost:8042')
+var socket = io()
 Vue.prototype.$socket = socket
 
 // Router
