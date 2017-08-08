@@ -42,7 +42,7 @@ if (arg.hasCommand('all')) {
 
 // Running as server
 
-if (arg.hasCommand('server') && process.stdin.isTTY) {
+if (arg.hasCommand('server') /* && process.stdin.isTTY */) {
     require('./lib/commands/server')()
 }
 
