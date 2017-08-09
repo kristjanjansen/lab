@@ -52,17 +52,15 @@ lab id
 lab server
 ```
 
----
-
-### Future
-
-#### Connect to the remote instance
-
-Local server will act as a proxy
+#### Deploy and connect to a remote server
 
 ```sh
-lab server http://remote-lab-server.com
+npm i -g now
+now kristjanjansen/lab
+lab server http://now-address-in-clipboard.now.sh
 ```
+
+## Future
 
 #### Run a script by tag name
 
