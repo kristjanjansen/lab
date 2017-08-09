@@ -18,6 +18,13 @@
         font-size: 0.9rem;
         color: white;
     }
+    a {
+        text-decoration: none;
+        color: gray;
+    }
+    a:hover {
+        color: white;
+    }
     pre {
         margin: 0;
     }

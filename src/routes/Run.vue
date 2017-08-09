@@ -1,17 +1,19 @@
 <template>
     <div class="Run">
+
+        <div class="Run__header">
+
+            <router-link to="/">›</router-link> <runtitle :run="run"></runtitle>
         
-        <runtitle v-if="run" :run="run"></runtitle>
-        
+        </div>
+
         <div class="Run__content">
-            
-            <parameters class="Run__parameters"></parameters>
 
             <highlight-code
                 class="Run__code"
-                v-if="code"
-                :lang="lang"
-                :code="code"
+                v-if="run.code"
+                :lang="run.lang"
+                :code="run.code"
             >
             </highlight-code>
 
@@ -24,13 +26,13 @@
 <script>
 
     import Runtitle from '../components/Runtitle.vue'
-    import Parameters from '../components/Parameters.vue'
 
     export default {
-        components: { Runtitle, Parameters },
-        data: () => ({ run: null }),
+        components: { Runtitle },
+        props: ['id'],
+        data: () => ({ run: {} }),
         mounted() {
-            this.$socket.on('start', run => this.run = run)
+            this.$socket.on('run', run => this.run = run)
         }
     }
 
@@ -38,16 +40,24 @@
 
 <style>
     
+    .Run__header {
+        display: flex;
+    }
+
+    .Run__header > * {
+        margin-right: 0.5rem;
+    }
+
     .Run__content {
         display: flex;
     }
 
     .Run__parameters {
-        width: 25%;
+        width: 30%;
     }
 
     .Run__code {
-        width: 75%;
+        width: 70%;
     }
 
     .hljs {
