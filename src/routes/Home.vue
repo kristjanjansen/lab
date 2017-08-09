@@ -63,9 +63,9 @@
             }
         },
         mounted() {
-            this.$socket.on('start', run => this.runs.push(run))
-            this.$socket.on('log', payload => this.logs.push(payload))
-            this.$events.$on('run', id => this.$socket.emit('run', id))
+            this.$socket.on('run', run => this.runs.push(run))
+            this.$socket.on('log', log => this.logs.push(log))
+            // this.$events.$on('run', id => this.$socket.emit('run', id))
         }
     }
 

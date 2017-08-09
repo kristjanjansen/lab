@@ -34,7 +34,7 @@ if (String(arg.command()).match(/^([a-z0-9]{8})$/)) {
     require('./lib/commands/run').runById(arg.command())
 }
 
-// Running as server
+// Running all scripts
 
 if (arg.hasCommand('all')) {
     require('./lib/commands/run').runAll()
