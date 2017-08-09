@@ -6,7 +6,7 @@
         
         <div v-for="run in runsWithLogs" style="margin-bottom: 25px">
             
-            <runtitle :run="run"></runtitle>
+            <runtitle :run="run" :link="'run/' + run.id"></runtitle>
             
             <!--number
                 v-if="run.logs.filter(l => l.format === 'number').length === 1"
@@ -65,7 +65,6 @@
         mounted() {
             this.$socket.on('run', run => this.runs.push(run))
             this.$socket.on('log', log => {
-                console.log(log)
                 this.logs.push(log)
             })
             // this.$events.$on('run', id => this.$socket.emit('run', id))

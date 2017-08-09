@@ -8,7 +8,7 @@ import VueHighlightJS from 'vue-highlight.js'
 
 Vue.use(VueClipboard)
 Vue.use(VueHighlightJS)
-import 'highlight.js/styles/vs2015.css'
+import 'highlight.js/styles/agate.css'
 
 var events = new Vue()
 Vue.prototype.$events = events
@@ -28,7 +28,7 @@ import About from './routes/About.vue'
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/run', component: Run },
+  { path: '/run/:run', component: Run, props: true },
   { path: '/about', component: About }
 ]
 
