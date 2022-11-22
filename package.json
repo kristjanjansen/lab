@@ -31,7 +31,7 @@
     "opener": "^1.4.3",
     "raw-loader": "^0.5.1",
     "resolve-app-path": "^1.0.2",
-    "socket.io": "^2.0.3",
+    "socket.io": "^2.5.0",
     "socket.io-client": "^2.0.3",
     "style-loader": "^0.18.2",
     "vue": "^2.3.4",
